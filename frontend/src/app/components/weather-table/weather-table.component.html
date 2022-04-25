@@ -1,0 +1,16 @@
+<table *ngFor="let source of weatherInfos" class="table">
+  <thead>
+    <tr>
+      <th scope="col">Time</th>
+      <th scope="col">Temperature</th>
+      <th scope="col">Precipitation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let weatherInfo of source">
+      <th scope="row">{{ weatherInfo.time }}</th>
+      <td>{{ weatherInfo.temp }}</td>
+      <td>{{ weatherInfo.precipitation }}</td>
+    </tr>
+  </tbody>
+</table>

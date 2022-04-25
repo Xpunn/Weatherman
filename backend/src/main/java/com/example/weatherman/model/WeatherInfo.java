@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 public class WeatherInfo {
-    private Double longitude;
     private Double latitude;
+    private Double longitude;
     private LocalDateTime time;
     private Double temp;
     private Double precipitation;
