@@ -1,16 +1,20 @@
-<table *ngFor="let source of weatherInfos" class="table">
-  <thead>
-    <tr>
-      <th scope="col">Time</th>
-      <th scope="col">Temperature</th>
-      <th scope="col">Precipitation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let weatherInfo of source">
-      <th scope="row">{{ weatherInfo.time }}</th>
-      <td>{{ weatherInfo.temp }}</td>
-      <td>{{ weatherInfo.precipitation }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <div *ngFor="let source of weatherInfos" class="col-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Time</th>
+          <th scope="col">Temperature °C</th>
+          <th scope="col">Precipitation mm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let weatherInfo of source">
+          <th scope="row">{{ weatherInfo.time }}</th>
+          <td>{{ weatherInfo.temp }} °C</td>
+          <td>{{ weatherInfo.precipitation }} mm</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

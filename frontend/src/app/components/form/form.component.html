@@ -1,104 +1,57 @@
-<button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#modal"
->
-  Open modal
-</button>
-<div
-  class="modal fade"
-  id="modal"
-  tabindex="-1"
-  aria-labelledby="weatherModal"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="weatherModal">Search weather info</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <app-weather-table #table></app-weather-table>
-        <form
-          #searchForm="ngForm"
-          (ngSubmit)="table.getWeather(latitude, longitude, startDate, endDate)"
-        >
-          <app-weather-table #table></app-weather-table>
-          <div class="col">
-            <label for="inputLat" class="form-label">Latitude:</label>
-            <input
-              type="text"
-              [(ngModel)]="latitude"
-              name="latitude"
-              class="form-control"
-              id="inputLat"
-              placeholder="Latitude"
-              required
-            />
-          </div>
-          <div class="col">
-            <label for="inputLong" class="form-label">Longitude:</label>
-            <input
-              type="text"
-              [(ngModel)]="longitude"
-              name="longitude"
-              class="form-control"
-              id="inputLong"
-              placeholder="Longitude"
-              required
-            />
-          </div>
-          <div class="col">
-            <label for="inputStartDate" class="form-label"
-              >Starting date:</label
-            >
-            <input
-              type="datetime-local"
-              [(ngModel)]="startDate"
-              name="startDate"
-              class="form-control"
-              id="inputStartDate"
-              required
-            />
-          </div>
-          <div class="col">
-            <label for="inputEndDate" class="form-label">End date:</label>
-            <input
-              type="datetime-local"
-              [(ngModel)]="endDate"
-              name="endDate"
-              class="form-control"
-              id="inputEndDate"
-              required
-            />
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              [disabled]="searchForm.invalid"
-              type="submit"
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#modal"
-            >
-              Search
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+<form *ngIf="showSearch" #searchForm="ngForm" (ngSubmit)="onSubmit()">
+  <div class="col">
+    <label for="inputLat" class="form-label">Latitude:</label>
+    <input
+      type="text"
+      [(ngModel)]="latitude"
+      name="latitude"
+      class="form-control"
+      id="inputLat"
+      placeholder="Latitude"
+      required
+    />
   </div>
-</div>
+  <div class="col">
+    <label for="inputLong" class="form-label">Longitude:</label>
+    <input
+      type="text"
+      [(ngModel)]="longitude"
+      name="longitude"
+      class="form-control"
+      id="inputLong"
+      placeholder="Longitude"
+      required
+    />
+  </div>
+  <div class="col">
+    <label for="inputStartDate" class="form-label">Starting date:</label>
+    <input
+      type="datetime-local"
+      [(ngModel)]="startDate"
+      name="startDate"
+      class="form-control"
+      id="inputStartDate"
+      required
+    />
+  </div>
+  <div class="col">
+    <label for="inputEndDate" class="form-label">End date:</label>
+    <input
+      type="datetime-local"
+      [(ngModel)]="endDate"
+      name="endDate"
+      class="form-control"
+      id="inputEndDate"
+      required
+    />
+  </div>
+  <div class="modal-footer">
+    <button
+      [disabled]="searchForm.invalid"
+      type="submit"
+      class="btn btn-primary"
+    >
+      Search
+    </button>
+  </div>
+</form>

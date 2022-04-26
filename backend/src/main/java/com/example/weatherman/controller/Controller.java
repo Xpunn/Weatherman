@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @RestController
@@ -22,11 +21,6 @@ public class Controller {
     // API key from env variables
     @Value("${API_KEY}")
     private String apiKey;
-
-    @GetMapping(value = "/test")
-    public ResponseEntity<String> test() {
-        return new ResponseEntity<>("Hello world!", HttpStatus.OK);
-    }
 
     @GetMapping(value = "/{lat}/{long}/{startDate}/{endDate}")
     public ResponseEntity<List<List<WeatherInfo>>> getWeatherInfo(@PathVariable Map<String, String> pathVariables) {
@@ -119,7 +113,7 @@ public class Controller {
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                 if (time.isAfter(startingDate) && time.isBefore(endDate)) {
                     Double temp = hour.get("temp_c").asDouble();
-                    Double precipitation = hour.get("precip_in").asDouble();
+                    Double precipitation = hour.get("precip_mm").asDouble();
 
                     // Creates and adds the WeatherInfo to the list
                     weatherInfoList.add(new WeatherInfo(latitude, longitude, time, temp, precipitation));

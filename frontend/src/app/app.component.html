@@ -1,5 +1,5 @@
-<div class="container" id="main-conatiner">
+<div class="container" id="main-container">
   <app-header></app-header>
-  <app-form> </app-form>
-  <app-weather-table></app-weather-table>
+  <app-form (onSearch)="getWeather($event)"></app-form>
+  <app-weather-table [weatherInfos]="weatherInfos"></app-weather-table>
 </div>
