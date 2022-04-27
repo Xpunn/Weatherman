@@ -10,6 +10,8 @@ import { WeatherInfo } from './weatherInfo';
 })
 export class AppComponent implements OnInit {
   weatherInfos: WeatherInfo[][] = [];
+  // dbWeatherInfos: WeatherInfo[] = [];
+  // params!: string;
 
   constructor(private weatherInfoService: WeatherInfoService) {}
 
@@ -19,6 +21,13 @@ export class AppComponent implements OnInit {
       error: (error: HttpErrorResponse) => alert(error.message),
     });
   }
+
+  // public getWeatherFromDb(): void {
+  //   this.weatherInfoService.getFromDbByDate(this.params).subscribe({
+  //     next: (response: WeatherInfo[]) => (this.dbWeatherInfos = response),
+  //     error: (error: HttpErrorResponse) => alert(error.message),
+  //   });
+  // }
 
   ngOnInit(): void {}
 }

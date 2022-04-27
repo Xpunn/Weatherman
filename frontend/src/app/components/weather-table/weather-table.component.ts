@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { WeatherInfoService } from 'src/app/services/weather-info.service';
 import { WeatherInfo } from 'src/app/weatherInfo';
 
@@ -10,6 +10,9 @@ import { WeatherInfo } from 'src/app/weatherInfo';
 })
 export class WeatherTableComponent implements OnInit {
   @Input() weatherInfos: WeatherInfo[][] = [];
+  // @Input() dbWeatherInfos: WeatherInfo[] = [];
+  // @Output() onGetFromDb: EventEmitter<any> = new EventEmitter();
+  weatherInfosFromDb: WeatherInfo[] = [];
 
   constructor(private weatherInfoService: WeatherInfoService) {}
 
@@ -21,4 +24,8 @@ export class WeatherTableComponent implements OnInit {
       error: (error: HttpErrorResponse) => alert(error.message),
     });
   }
+
+  // onGet(): void {
+  //   this.onGetFromDb.emit();
+  // }
 }
