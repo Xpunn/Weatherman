@@ -21,7 +21,7 @@ public class Controller {
     // API key from env variables
     @Value("${API_KEY}")
     private String apiKey;
-
+    
     @GetMapping(value = "/{lat}/{long}/{startDate}/{endDate}")
     public ResponseEntity<List<List<WeatherInfo>>> getWeatherInfo(@PathVariable Map<String, String> pathVariables) {
         Double latitude = Double.parseDouble(pathVariables.get("lat"));

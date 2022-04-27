@@ -1,57 +1,62 @@
 <form *ngIf="showSearch" #searchForm="ngForm" (ngSubmit)="onSubmit()">
-  <div class="col">
-    <label for="inputLat" class="form-label">Latitude:</label>
-    <input
-      type="text"
-      [(ngModel)]="latitude"
-      name="latitude"
-      class="form-control"
-      id="inputLat"
-      placeholder="Latitude"
-      required
-    />
+  <div class="row mb-3">
+    <label for="inputLat" class="col-sm-2 col-form-label">Latitude:</label>
+    <div class="col-sm-5">
+      <input
+        type="text"
+        [(ngModel)]="latitude"
+        name="latitude"
+        class="form-control"
+        id="inputLat"
+        placeholder="Latitude"
+        required
+      />
+    </div>
   </div>
-  <div class="col">
-    <label for="inputLong" class="form-label">Longitude:</label>
-    <input
-      type="text"
-      [(ngModel)]="longitude"
-      name="longitude"
-      class="form-control"
-      id="inputLong"
-      placeholder="Longitude"
-      required
-    />
+  <div class="row mb-3">
+    <label for="inputLong" class="col-sm-2 col-form-label">Longitude:</label>
+    <div class="col-sm-5">
+      <input
+        type="text"
+        [(ngModel)]="longitude"
+        name="longitude"
+        class="form-control"
+        id="inputLong"
+        placeholder="Longitude"
+        required
+      />
+    </div>
   </div>
-  <div class="col">
-    <label for="inputStartDate" class="form-label">Starting date:</label>
-    <input
-      type="datetime-local"
-      [(ngModel)]="startDate"
-      name="startDate"
-      class="form-control"
-      id="inputStartDate"
-      required
-    />
-  </div>
-  <div class="col">
-    <label for="inputEndDate" class="form-label">End date:</label>
-    <input
-      type="datetime-local"
-      [(ngModel)]="endDate"
-      name="endDate"
-      class="form-control"
-      id="inputEndDate"
-      required
-    />
-  </div>
-  <div class="modal-footer">
-    <button
-      [disabled]="searchForm.invalid"
-      type="submit"
-      class="btn btn-primary"
+  <div class="row mb-3">
+    <label for="inputStartDate" class="col-sm-2 col-form-label"
+      >Starting date:</label
     >
-      Search
-    </button>
+    <div class="col-sm-3">
+      <input
+        type="datetime-local"
+        [(ngModel)]="startDate"
+        name="startDate"
+        class="form-control"
+        id="inputStartDate"
+        required
+      />
+    </div>
   </div>
+  <div class="row mb-3">
+    <label for="inputEndDate" class="col-sm-2 col-form-label">End date:</label>
+    <div class="col-sm-3">
+      <input
+        type="datetime-local"
+        [(ngModel)]="endDate"
+        name="endDate"
+        class="form-control"
+        id="inputEndDate"
+        required
+      />
+    </div>
+  </div>
+  <button [disabled]="searchForm.invalid" type="submit" class="btn btn-primary">
+    Search
+  </button>
+  <app-map *ngIf="showMap" (onMapClick)="updateCoords($event)"></app-map>
 </form>

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { WeatherInfoService } from './services/weather-info.service';
 import { WeatherInfo } from './weatherInfo';
 
@@ -8,7 +8,7 @@ import { WeatherInfo } from './weatherInfo';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   weatherInfos: WeatherInfo[][] = [];
 
   constructor(private weatherInfoService: WeatherInfoService) {}
@@ -19,4 +19,6 @@ export class AppComponent {
       error: (error: HttpErrorResponse) => alert(error.message),
     });
   }
+
+  ngOnInit(): void {}
 }

@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FormComponent } from './components/form/form.component';
 import { WeatherTableComponent } from './components/weather-table/weather-table.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { WeatherTableComponent } from './components/weather-table/weather-table.
     HeaderComponent,
     FormComponent,
     WeatherTableComponent,
+    MapComponent,
   ],
   imports: [BrowserModule, HttpClientModule, FormsModule],
   providers: [],
