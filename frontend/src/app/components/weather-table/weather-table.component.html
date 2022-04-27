@@ -3,14 +3,14 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Time</th>
+          <th scope="col">Date and time</th>
           <th scope="col">Temperature °C</th>
           <th scope="col">Precipitation mm</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let weatherInfo of source">
-          <th scope="row">{{ weatherInfo.time }}</th>
+          <th scope="row">{{ weatherInfo.date }} {{ weatherInfo.time }}</th>
           <td>{{ weatherInfo.temp }} °C</td>
           <td>{{ weatherInfo.precipitation }} mm</td>
         </tr>
@@ -18,3 +18,5 @@
     </table>
   </div>
 </div>
+
+<button class="btn btn-primary" (click)="saveToTb()">Save</button>

@@ -1,8 +1,11 @@
+import { Time } from '@angular/common';
+
 export interface WeatherInfo {
   id?: number;
   latitude: number;
   longitude: number;
-  time: string;
+  date: Date;
+  time: Time;
   temp: number;
   precipitation: number;
 }

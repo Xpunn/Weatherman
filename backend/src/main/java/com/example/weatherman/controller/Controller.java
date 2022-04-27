@@ -3,8 +3,6 @@ package com.example.weatherman.controller;
 import com.example.weatherman.model.WeatherInfo;
 import com.example.weatherman.service.WeatherInfoService;
 import com.fasterxml.jackson.databind.JsonNode;
-import lombok.AllArgsConstructor;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +13,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/weather")
-@AllArgsConstructor
 public class Controller {
     private final WeatherInfoService service;
 
@@ -28,13 +24,17 @@ public class Controller {
     @Value("${API_KEY}")
     private String apiKey;
 
+    public Controller(WeatherInfoService service) {
+        this.service = service;
+    }
+
     @GetMapping(value = "/all")
     public ResponseEntity<List<WeatherInfo>> getAllWeatherFromDb() {
         return new ResponseEntity<>(service.getAllWeatherInfos(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/add")
-    public ResponseEntity<List<WeatherInfo>> addWeatherInfo(@RequestBody List<List<WeatherInfo>> weatherInfos) {
+    public ResponseEntity<List<WeatherInfo>> saveToDb(@RequestBody List<List<WeatherInfo>> weatherInfos) {
         List<WeatherInfo> addedWeatherInfos = new ArrayList<>();
 
         for (List<WeatherInfo> weatherInfoList : weatherInfos) {

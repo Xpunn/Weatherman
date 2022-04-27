@@ -15,4 +15,8 @@ export class WeatherInfoService {
   public getWeatherInfo(params: string): Observable<WeatherInfo[][]> {
     return this.http.get<WeatherInfo[][]>(`${this.apiUrl}/${params}`);
   }
+
+  public saveToDb(weatherInfos: WeatherInfo[][]): Observable<WeatherInfo[]> {
+    return this.http.post<WeatherInfo[]>(`${this.apiUrl}/add`, weatherInfos);
+  }
 }
