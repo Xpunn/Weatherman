@@ -1,27 +1,69 @@
 package com.example.weatherman.controller;
 
 import com.example.weatherman.model.WeatherInfo;
+import com.example.weatherman.service.WeatherInfoService;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.AllArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/weather")
+@AllArgsConstructor
 public class Controller {
+    private final WeatherInfoService service;
 
     // API key from env variables
     @Value("${API_KEY}")
     private String apiKey;
-    
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<WeatherInfo>> getAllWeatherFromDb() {
+        return new ResponseEntity<>(service.getAllWeatherInfos(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/add")
+    public ResponseEntity<List<WeatherInfo>> addWeatherInfo(@RequestBody List<List<WeatherInfo>> weatherInfos) {
+        List<WeatherInfo> addedWeatherInfos = new ArrayList<>();
+
+        for (List<WeatherInfo> weatherInfoList : weatherInfos) {
+            for (WeatherInfo weatherInfo : weatherInfoList) {
+                addedWeatherInfos.add(service.addWeatherInfo(weatherInfo));
+            }
+        }
+
+        return new ResponseEntity<>(addedWeatherInfos, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/{startDate}/{endDate}")
+    public ResponseEntity<List<WeatherInfo>> getWeatherFromDbByDate(@PathVariable Map<String, String> pathvariables) {
+        LocalDateTime startingDate = LocalDateTime.parse(pathvariables.get("starDate"));
+        LocalDateTime endDate = LocalDateTime.parse(pathvariables.get("endDate"));
+
+        // Create a list of dates between end and start dates
+        Stream<LocalDate> dates = startingDate.toLocalDate().datesUntil(endDate.toLocalDate().plusDays(1));
+        List<LocalDate> list = dates.toList();
+
+        // Find all the WeatherInfos with the right dates
+        List<WeatherInfo> weatherInfoList = new ArrayList<>();
+        for (LocalDate localDate : list) {
+            weatherInfoList.addAll(service.findWeatherInfoByDate(localDate));
+        }
+
+        return new ResponseEntity<>(weatherInfoList, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{lat}/{long}/{startDate}/{endDate}")
     public ResponseEntity<List<List<WeatherInfo>>> getWeatherInfo(@PathVariable Map<String, String> pathVariables) {
         Double latitude = Double.parseDouble(pathVariables.get("lat"));
@@ -59,24 +101,27 @@ public class Controller {
 
         while (timeSeriesI.hasNext()) {
             JsonNode timeSeries = timeSeriesI.next();
-            LocalDateTime time = LocalDateTime.parse(timeSeries.get("time").asText(),
+
+            LocalDateTime dateTime = LocalDateTime.parse(timeSeries.get("time").asText(),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"));
+            LocalDate date = dateTime.toLocalDate();
+            LocalTime time = dateTime.toLocalTime();
 
             // If the time is in the date range gets the other stats and creates the WeatherInfo
-            if (time.isAfter(startingDate) && time.isBefore(endDate)) {
+            if (dateTime.isAfter(startingDate) && dateTime.isBefore(endDate)) {
                 Double temp = timeSeries.get("data").get("instant").get("details").get("air_temperature").asDouble();
 
                 if (timeSeries.get("data").get("next_1_hours") != null) {
                     Double precipitation = timeSeries.get("data").get("next_1_hours").get("details")
                             .get("precipitation_amount").asDouble();
 
-                    weatherInfoList.add(new WeatherInfo(latitude, longitude, time, temp, precipitation));
+                    weatherInfoList.add(new WeatherInfo(latitude, longitude, date, time, temp, precipitation));
                 } else if (timeSeries.get("data").get("next_6_hours") != null) {
                     Double precipitation = timeSeries.get("data").get("next_6_hours").get("details")
                             .get("precipitation_amount").asDouble();
 
                     // Creates and adds the WeatherInfo to the list
-                    weatherInfoList.add(new WeatherInfo(latitude, longitude, time, temp, precipitation));
+                    weatherInfoList.add(new WeatherInfo(latitude, longitude, date, time, temp, precipitation));
                 }
             }
         }
@@ -109,14 +154,16 @@ public class Controller {
             while (hours.hasNext()) {
                 JsonNode hour = hours.next();
 
-                LocalDateTime time = LocalDateTime.parse(hour.get("time").asText(),
+                LocalDateTime dateTime = LocalDateTime.parse(hour.get("time").asText(),
                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                if (time.isAfter(startingDate) && time.isBefore(endDate)) {
+                LocalDate date = dateTime.toLocalDate();
+                LocalTime time = dateTime.toLocalTime();
+                if (dateTime.isAfter(startingDate) && dateTime.isBefore(endDate)) {
                     Double temp = hour.get("temp_c").asDouble();
                     Double precipitation = hour.get("precip_mm").asDouble();
 
                     // Creates and adds the WeatherInfo to the list
-                    weatherInfoList.add(new WeatherInfo(latitude, longitude, time, temp, precipitation));
+                    weatherInfoList.add(new WeatherInfo(latitude, longitude, date, time, temp, precipitation));
                 }
             }
         }
