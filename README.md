@@ -11,7 +11,7 @@ Then run the frontend using the `ng serve` command in the frontend folder.
 Now you can test the app on localhost:4200 from the browser. 
 
 I started the process of creating this app with researching both Angular and Spring Boot. I read some blog posts, watched some tutorial 
-videos and read some of the documentation. Then I created the backend with [Link](https://start.spring.io/ "spring initializer") and the frontend with the Angular cli. 
+videos and read some of the documentation. Then I created the backend with [Spring initializer](https://start.spring.io/) and the frontend with the Angular cli. 
 Then I started implementing the backend testing it using Postman. When the backend could send a response with data from 2 weather APIs I started implementing the frontend. 
 Then slowly I added more functionality and foxed many bugs along the way. 
 The frontend took the most time because I had more experience beforehand with Java than Javascript/typescript. 
