@@ -5,8 +5,8 @@ This is a weatherman application made for CGI summer internship.
 I assumed that the calls to third party APIs were to be made from the Spring Boot backend. 
 
 Unfortunately I didn't have time to figure out how to deploy the project. For testing purposes you can run the code following these steps:  
-First run the docker MongoDb database using the `docker compose -f docker-compose.yaml -d` command in the root folder of the appliaction.  
-Then run the Spring Boot backend from an IDE of your choice.  
+First run the docker MongoDb database using the `docker compose -f docker-compose.yaml -d` command in the backend folder.  
+Then run the Spring Boot backend from an IDE of your choice. (Ayou have to add an environment variable `API_KEY` with an API key from WeatherAPI toyour spring boot app.   
 Then run the frontend using the `ng serve` command in the frontend folder.  
 Now you can test the app on localhost:4200 from the browser. 
 
